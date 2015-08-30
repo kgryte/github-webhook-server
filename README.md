@@ -379,6 +379,9 @@ $ make view-cov
 Copyright &copy; 2015. Athan Reines.
 
 
+[npm-image]: http://img.shields.io/npm/v/github-webhook-server.svg
+[npm-url]: https://npmjs.org/package/github-webhook-server
+
 [travis-image]: http://img.shields.io/travis/kgryte/github-webhook-server/master.svg
 [travis-url]: https://travis-ci.org/kgryte/github-webhook-server
 
