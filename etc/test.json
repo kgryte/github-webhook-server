@@ -1,0 +1,6 @@
+{
+	"env": "test",
+	"logger": {
+		"level": "error"
+	}
+}

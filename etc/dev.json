@@ -1,0 +1,6 @@
+{
+	"env": "dev",
+	"logger": {
+		"level": "info"
+	}
+}
