@@ -48,7 +48,7 @@ function create( next ) {
 	* @private
 	*/
 	function onListen() {
-		logger.info( ( ( ssl ) ? 'HTTPS' : 'HTTP' ) + ' server initialized. Server is listening for requests on port: ' + server.address().port + '.' );
+		logger.info( ( ( ssl.enabled ) ? 'HTTPS' : 'HTTP' ) + ' server initialized. Server is listening for requests on port: ' + server.address().port + '.' );
 		next();
 	} // end FUNCTION onListen()
 } // end FUNCTION create()

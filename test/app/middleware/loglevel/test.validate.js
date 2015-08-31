@@ -45,18 +45,6 @@ describe( 'app/middleware/loglevel/validate', function tests() {
 		expect( validate ).to.be.a( 'function' );
 	});
 
-	it( 'should invoke a callback after successfully validating', function test( done ) {
-		next = function next( error ) {
-			if ( error ) {
-				assert.notOk( true );
-			} else {
-				assert.ok( true );
-			}
-			done();
-		};
-		validate( request, response, next );
-	});
-
 	it( 'should return an error if provided an invalid level parameter', function test( done ) {
 		var values, count;
 
@@ -98,6 +86,18 @@ describe( 'app/middleware/loglevel/validate', function tests() {
 			done();
 		};
 		request.body.level = 'unknown_level';
+		validate( request, response, next );
+	});
+
+	it( 'should invoke a callback after successfully validating', function test( done ) {
+		next = function next( error ) {
+			if ( error ) {
+				assert.notOk( true );
+			} else {
+				assert.ok( true );
+			}
+			done();
+		};
 		validate( request, response, next );
 	});
 

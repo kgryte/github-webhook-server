@@ -50,6 +50,7 @@
     "response-time": "^2.3.0",
     "topical": "^1.1.1",
     "utils-copy": "^1.0.0",
+    "utils-json-parse": "^1.0.0",
     "utils-merge2": "^1.0.0",
     "validate.io-array": "^1.0.6",
     "validate.io-boolean-primitive": "^1.0.0",

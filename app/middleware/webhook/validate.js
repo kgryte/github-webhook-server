@@ -2,7 +2,8 @@
 
 // MODULES //
 
-var config = require( 'config' ),
+var parse = require( 'utils-json-parse' ),
+	config = require( 'config' ),
 	sign = require( './sign.js' );
 
 
@@ -70,6 +71,15 @@ function validate( request, response, next ) {
 	// Verify the signature:
 	if ( sig !== sign( config.get( 'secret' ), body ) ) {
 		msg = 'invalid request. X-Hub-Signature does not match the blob signature.';
+		error = {
+			'status': 400,
+			'message': msg
+		};
+		return next( error );
+	}
+	body = parse( body );
+	if ( body instanceof Error ) {
+		msg = 'invalid request. Unable to parse the request body as JSON.';
 		error = {
 			'status': 400,
 			'message': msg
