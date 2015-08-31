@@ -1,7 +1,7 @@
 /* global require, describe, it */
 'use strict';
 
-var mpath = './../../../../app/middleware/logs';
+var mpath = './../../../../app/middleware/webhook';
 
 
 // MODULES //
@@ -18,7 +18,7 @@ var expect = chai.expect,
 
 // TESTS //
 
-describe( 'app/middleware/logs/post', function tests() {
+describe( 'app/middleware/webhook/post', function tests() {
 
 	it( 'should export an array of middleware', function test() {
 		expect( mw ).to.be.an( 'array' );

@@ -1,13 +1,16 @@
 
-Usage: github-webhook-server [options]
+Usage: github-webhook-server --secret <secret> --hook <module> [options]
 
 Options:
 
   -h,    --help                Print this message.
   -V,    --version             Print the package version.
-  -p,    --port [port]         Specify the server port. Default: 0.
+         --secret [secret]     Webhook secret.
+         --hook [module]       Hook invoked upon receiving an event.
+  -p,    --port [port]         Server port. Default: 0.
          --ssl                 Enable HTTPS.
-         --key [path]          Path to SSL key file. Default: null.
-         --cert [path]         Path to SSL certificate. Default: null.
-         --loglevel [level]    Specify the log level. Default: info.
+         --key [path]          Path to SSL key file.
+         --cert [path]         Path to SSL certificate.
+         --loglevel [level]    Log level. Default: info.
+
 

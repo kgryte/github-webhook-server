@@ -7,8 +7,21 @@ var fs = require( 'fs' ),
 	path = require( 'path' ),
 	pkginfo = require( 'pkginfo' ),
 	parseArgs = require( 'minimist' ),
+	isArray = require( 'validate.io-array' ),
 	opts = require( './opts.json' ),
-	validate = require( './validate.js' );
+	app = require( './../app' );
+
+
+// VARIABLES //
+
+var cwd = process.cwd(),
+	level,
+	hooks,
+	args,
+	pkg,
+	len,
+	fcn,
+	i;
 
 
 // INIT //
@@ -18,17 +31,23 @@ process.stdout.on( 'error', process.exit );
 
 // PACKAGE INFO //
 
-var pkg = pkginfo.read( require.main );
+pkg = pkginfo.read( require.main );
 process.title = pkg.package.name;
 
 
 // ARGUMENTS //
 
-var args = parseArgs( process.argv.slice( 2 ), opts );
+args = parseArgs( process.argv.slice( 2 ), opts );
 
 
 // HELP //
 
+/**
+* FUNCTION: onClose()
+*	Callback invoked upon writing a file to `stdout`.
+*
+* @private
+*/
 function onClose() {
 	process.exit( 1 );
 }
@@ -49,6 +68,53 @@ if ( args.version ) {
 }
 
 
+// OPTS //
+
+opts = {};
+
+// Github webhook secret...
+if ( args.secret ) {
+	opts.secret = args.secret;
+} else {
+	opts.secret = process.env.GITHUB_SECRET;
+}
+
+// Hooks...
+if ( isArray( args.hook ) ) {
+	hooks = args.hook;
+} else {
+	hooks = [ args.hook ];
+}
+len = hooks.length;
+opts.hooks = new Array( len );
+for ( i = 0; i < len; i++ ) {
+	fcn = path.resolve( cwd, hooks[ i ] );
+	opts.hooks[ i ] = require( fcn );
+}
+
+// Port...
+if ( args.hasOwnProperty( 'port' ) ) {
+	opts.port = args.port;
+}
+
+// SSL, key, cert...
+if ( args.ssl ) {
+	opts.ssl = true;
+	opts.key = args.key;
+	opts.cert = args.cert;
+}
+
+// Loglevel...
+if ( args.loglevel ) {
+	level = parseFloat( args.loglevel );
+	if ( level === level ) {
+		opts.loglevel = level;
+	} else {
+		opts.loglevel = args.loglevel;
+	}
+}
+
+
 // APPLICATION //
 
-require( './../app' )( validate( args ) );
+app( opts );

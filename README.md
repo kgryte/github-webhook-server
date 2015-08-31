@@ -35,13 +35,13 @@ $ make install
 To start the application server
 
 ``` bash
-$ npm start
+$ npm start -- --secret <secret> --hook <module>
 ```
 
 or, alternatively, from the top-level application directory
 
 ``` bash
-$ node ./bin/cli
+$ node ./bin/cli --secret <secret> --hook <module>  | ./node_modules/.bin/bunyan
 ```
 
 The default server `port` is `0`, in which case the port is [randomly assigned](https://nodejs.org/api/net.html#net_server_listen_port_host_backlog_callback) at run-time. To determine the run-time `port`, see the log output; e.g.,
@@ -63,18 +63,29 @@ For advanced usage, see [below](#usage).
 ## Usage
 
 ``` bash
-Usage: github-webhook-server [options]
+Usage: github-webhook-server --secret <secret> --hook <module> [options]
 
 Options:
 
   -h,    --help                Print this message.
   -V,    --version             Print the package version.
-  -p,    --port [port]         Specify the server port. Default: 0.
+         --secret [secret]     Webhook secret.
+         --hook [module]       Hook invoked upon receiving an event.
+  -p,    --port [port]         Server port. Default: 0.
          --ssl                 Enable HTTPS.
-         --key [path]          Path to SSL key file. Default: null.
-         --cert [path]         Path to SSL certificate. Default: null.
-         --loglevel [level]    Specify the log level. Default: info.
+         --key [path]          Path to SSL key file.
+         --cert [path]         Path to SSL certificate.
+         --loglevel [level]    Log level. Default: info.
 ```
+
+#### Notes
+
+* 	In addition to the command-line `secret` option, the `secret` may also be specified by a `GITHUB_SECRET` environment variable. The command-line option __always__ takes precedence. 
+*	Multiple `hooks` are supported. When an event is received, all hooks will be provided the same payload.
+
+	``` bash
+	$ github-webhook-server --secret <secret> --hook ./hook1.js --hook ./hook2.js
+	```
 
 ---
 ## Routes
@@ -144,7 +155,7 @@ function onMetrics( error, response, body ) {
 }
 ```
 
-A request will receive a response body similar to the following
+A request will receive a response body similar to the following:
 
 ``` javascript
 {
@@ -314,7 +325,7 @@ function onResponse( error, response, body ) {
 }
 ```
 
-A successful request will receive the following response body
+A successful request will receive the following response body:
 
 ```
 OK

@@ -2,7 +2,8 @@
 
 // MODULES //
 
-var isNumber = require( 'validate.io-number' );
+var isNumber = require( 'validate.io-number-primitive' ),
+	contains = require( 'validate.io-contains' );
 
 
 // VARIABLES //
@@ -15,24 +16,6 @@ var LEVELS = [
 	'error',
 	'fatal'
 ];
-
-
-// FUNCTIONS //
-
-/**
-* FUNCTION: validLevel( value )
-*	Validates a log level.
-*
-* @private
-* @param {Number|String} value - log level
-* @returns {Boolean} boolean indicating if the provided level parameter is valid
-*/
-function validLevel( value ) {
-	if ( typeof value === 'string' ) {
-		return LEVELS.indexOf( value ) !== -1;
-	}
-	return isNumber( value );
-} // end FUNCTION validLevel()
 
 
 // VALIDATE //
@@ -50,7 +33,7 @@ function validate( request, response, next ) {
 		msg,
 		error;
 
-	if ( !validLevel( query.level ) ) {
+	if ( !isNumber( query.level ) && !contains( LEVELS, query.level ) ) {
 		msg = 'Invalid query parameter. `level` should either be numeric or one of the following strings: [' + LEVELS.join( ', ' ) + '].';
 		error = {
 			'status': 400,

@@ -12,8 +12,8 @@ var compression = require( 'compression' ),
 // REQUEST HANDLERS //
 
 var monitor = require( './monitor' ),
-	logs = require( './logs' ),
-	loglevel = require( './loglevel' );
+	loglevel = require( './loglevel' ),
+	webhook = require( './webhook' );
 
 
 // MIDDLEWARE //
@@ -55,9 +55,9 @@ function middleware( next ) {
 
 	app.get( '/monitor', monitor );
 
-	app.post( '/logs', logs );
-
 	app.put( '/loglevel', loglevel );
+
+	app.post( '/webhook', webhook );
 
 
 	/**

@@ -1,7 +1,7 @@
 /* global require, describe, it, beforeEach */
 'use strict';
 
-var mpath = './../../../../app/middleware/logs/okay.js';
+var mpath = './../../../../app/middleware/webhook/okay.js';
 
 
 // MODULES //
@@ -18,7 +18,7 @@ var expect = chai.expect,
 
 // TESTS //
 
-describe( 'app/middleware/logs/okay', function tests() {
+describe( 'app/middleware/webhook/okay', function tests() {
 
 	// SETUP //
 

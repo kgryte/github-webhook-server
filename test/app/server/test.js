@@ -34,17 +34,15 @@ certpath = path.resolve( __dirname, '../../fixtures/agent2-cert.pem' );
 * @param {Boolean} bool - boolean indicating whether SSL is enabled
 * @returns {Object} mock config
 */
-function config( ssl ) {
+function config( bool ) {
 	return {
 		'get': function get( key ) {
-			if ( key === 'ssl.enabled' ) {
-				return ssl;
-			}
 			if ( key === 'port' ) {
 				return 0;
 			}
 			if ( key === 'ssl' ) {
 				return {
+					'enabled': bool,
 					'key': keypath,
 					'cert': certpath
 				};

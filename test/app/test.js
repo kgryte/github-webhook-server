@@ -1,4 +1,4 @@
-/* global require, describe, it */
+/* global require, describe, it, beforeEach */
 'use strict';
 
 var mpath = './../../app';
@@ -7,6 +7,7 @@ var mpath = './../../app';
 // MODULES //
 
 var chai = require( 'chai' ),
+	noop = require( '@kgryte/noop' ),
 	proxyquire = require( 'proxyquire' ),
 	createApp = require( mpath );
 
@@ -21,52 +22,23 @@ var expect = chai.expect,
 
 describe( 'app', function tests() {
 
+	var opts;
+
+	beforeEach( function beforeEach() {
+		opts = {
+			'secret': '1234',
+			'hooks': [ noop ]
+		};
+	});
+
 	it( 'should export a function to create an application', function test() {
 		expect( createApp ).to.be.a( 'function' );
 	});
 
-	it( 'should throw an error if the function has an arity of 1 and is provided an options argument which is neither an object or a function', function test() {
-		var values = [
-			'5',
-			5,
-			NaN,
-			null,
-			undefined,
-			true,
-			[]
-		];
-
-		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue( values[ i ] ) ).to.throw( TypeError );
-		}
-
-		function badValue( value ) {
-			return function() {
-				createApp( value );
-			};
-		}
-	});
-
-	it( 'should throw an error if the function has an arity of 2 and is provided an options argument which is not an object', function test() {
-		var values = [
-			'5',
-			5,
-			NaN,
-			null,
-			undefined,
-			true,
-			[],
-			function(){}
-		];
-
-		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue( values[ i ] ) ).to.throw( TypeError );
-		}
-
-		function badValue( value ) {
-			return function() {
-				createApp( value, function(){} );
-			};
+	it( 'should throw an error if not provided options', function test() {
+		expect( foo ).to.throw( TypeError );
+		function foo() {
+			createApp();
 		}
 	});
 
@@ -88,13 +60,55 @@ describe( 'app', function tests() {
 
 		function badValue( value ) {
 			return function() {
-				createApp( {}, value );
+				createApp( opts, value );
+			};
+		}
+	});
+
+	it( 'should throw an error if not provided a webhook secret', function test() {
+		expect( foo ).to.throw( TypeError );
+		function foo() {
+			createApp({
+				'hooks': [ noop ]
+			});
+		}
+	});
+
+	it( 'should throw an error if not provided hooks', function test() {
+		expect( foo ).to.throw( TypeError );
+		function foo() {
+			createApp({
+				'secret': '1234'
+			});
+		}
+	});
+
+	it( 'should throw an error if provided an invalid option', function test() {
+		var values = [
+			'5',
+			5,
+			NaN,
+			null,
+			undefined,
+			[],
+			{},
+			function(){}
+		];
+
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[ i ] ) ).to.throw( TypeError );
+		}
+
+		function badValue( value ) {
+			return function() {
+				opts.ssl = value;
+				createApp( opts, noop );
 			};
 		}
 	});
 
 	it( 'should return an application', function test( done ) {
-		var app = createApp();
+		var app = createApp( opts );
 		expect( app ).to.be.a( 'function' );
 		setTimeout( onTimeout, 200 );
 		function onTimeout() {
@@ -104,28 +118,8 @@ describe( 'app', function tests() {
 		}
 	});
 
-	it( 'should return an application when provided run-time options', function test( done ) {
-		var app = createApp( {} );
-		expect( app ).to.be.a( 'function' );
-		setTimeout( onTimeout, 200 );
-		function onTimeout() {
-			app.server.close();
-			assert.ok( true );
-			done();
-		}
-	});
-
-	it( 'should invoke a callback upon successful application creation', function test( done ) {
-		var app = createApp( onApp );
-		function onApp() {
-			app.server.close();
-			assert.ok( true );
-			done();
-		}
-	});
-
-	it( 'should invoke a callback upon successful application creation when provided run-time options', function test( done ) {
-		var app = createApp( {}, onApp );
+	it( 'should invoke a provided callback upon successful application creation', function test( done ) {
+		var app = createApp( opts, onApp );
 		function onApp() {
 			app.server.close();
 			assert.ok( true );
@@ -134,7 +128,7 @@ describe( 'app', function tests() {
 	});
 
 	it( 'should append routes during application creation', function test( done ) {
-		var app = createApp( onApp );
+		var app = createApp( opts, onApp );
 		function onApp() {
 			app.server.close();
 			assert.ok( Object.keys( app._router.stack ).length );
@@ -152,17 +146,19 @@ describe( 'app', function tests() {
 			done();
 		};
 
-		createApp = proxyquire( './../../app', {
-			bootable: function() {
-				return {
-					phase: function() {},
-					boot: function( clbk ) {
-						clbk( new Error( 'error' ) );
-					}
-				};
-			}
+		createApp = proxyquire( mpath, {
+			'bootable': bootable
 		});
-		createApp();
+		createApp( opts );
+
+		function bootable() {
+			return {
+				'phase': function phase() {},
+				'boot': function boot( clbk ) {
+					clbk( new Error( 'error' ) );
+				}
+			};
+		}
 	});
 
 });

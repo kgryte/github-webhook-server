@@ -13,7 +13,7 @@
     }
   ],
   "scripts": {
-    "start": "node ./bin/cli | ./node_modules/.bin/bunyan",
+    "start": "node ./bin/cli",
     "test": "mocha test/app/*.js test/app/**/*.js test/app/**/**/*.js test/app/**/**/**/*.js test/app/**/**/**/**/*.js",
     "test-cov": "istanbul cover ./node_modules/.bin/_mocha test/app/*.js test/app/**/*.js test/app/**/**/*.js test/app/**/**/**/*.js test/app/**/**/**/**/*.js --dir ./reports/coverage -- -R spec",
     "codecov": "istanbul cover ./node_modules/.bin/_mocha test/app/*.js test/app/**/*.js test/app/**/**/*.js test/app/**/**/**/*.js test/app/**/**/**/**/*.js --dir ./reports/codecov/coverage --report lcovonly -- -R spec && cat ./reports/codecov/coverage/lcov.info | codecov && rm -rf ./reports/codecov"
@@ -51,10 +51,15 @@
     "topical": "^1.1.1",
     "utils-copy": "^1.0.0",
     "utils-merge2": "^1.0.0",
-    "validate.io-number": "^1.0.3",
+    "validate.io-array": "^1.0.6",
+    "validate.io-boolean-primitive": "^1.0.0",
+    "validate.io-contains": "^1.0.0",
+    "validate.io-function": "^1.0.2",
+    "validate.io-function-array": "^1.0.0",
+    "validate.io-nonnegative-integer": "^1.0.0",
+    "validate.io-number-primitive": "^1.0.0",
     "validate.io-object": "^1.0.3",
-    "validate.io-string-primitive": "^1.0.0",
-    "validate.io-string-primitive-array": "^1.0.0"
+    "validate.io-string-primitive": "^1.0.0"
   },
   "devDependencies": {
     "@kgryte/noop": "^1.0.0",

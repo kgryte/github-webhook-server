@@ -3,7 +3,9 @@
 		"port",
 		"key",
 		"cert",
-		"loglevel"
+		"loglevel",
+		"secret",
+		"hook"
 	],
 	"boolean": [
 		"help",
