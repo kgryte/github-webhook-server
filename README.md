@@ -81,7 +81,7 @@ Options:
 #### Notes
 
 * 	In addition to the command-line `secret` option, the `secret` may also be specified by a `GITHUB_SECRET` environment variable. The command-line option __always__ takes precedence. 
-*	Multiple `hooks` are supported. When an event is received, all hooks will be provided the same payload.
+*	Multiple `hooks` are supported. When an event is received, all hooks are provided the same payload.
 
 	``` bash
 	$ github-webhook-server --secret <secret> --hook ./hook1.js --hook ./hook2.js
