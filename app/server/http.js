@@ -11,7 +11,6 @@ var http = require( 'http' );
 * FUNCTION: httpServer( app )
 *	Creates an HTTP server.
 *
-* @private
 * @param {Function} app - application
 * @returns {Server} HTTP server
 */

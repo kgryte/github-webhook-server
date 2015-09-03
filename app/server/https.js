@@ -18,8 +18,7 @@ var cwd = process.cwd();
 /**
 * FUNCTION: httpsServer( app, opts )
 *	Creates an HTTPS server.
-*
-* @private
+
 * @param {Function} app - application
 * @param {Object} opts - server options
 * @returns {Server} HTTPS server
@@ -30,6 +29,7 @@ function httpsServer( app, options ) {
 		err;
 
 	// TODO: generalize for additional HTTPS options...
+	// TODO: add options in JSDoc above
 
 	// Get the private key for SSL...
 	filepath = path.resolve( cwd, options.key );

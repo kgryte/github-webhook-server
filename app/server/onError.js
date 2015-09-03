@@ -11,7 +11,6 @@ var logger = require( 'logger' );
 * FUNCTION: onError( error )
 *	Server error event handler.
 *
-* @private
 * @param {Error} error - server error
 */
 function onError( error ) {
