@@ -31,18 +31,18 @@ function httpsServer( app, options ) {
 	// TODO: generalize for additional HTTPS options...
 	// TODO: add options in JSDoc above
 
-	// Get the private key for SSL...
+	// Get the private key for TLS/SSL...
 	filepath = path.resolve( cwd, options.key );
 	if ( !fs.existsSync( filepath ) ) {
-		err = new Error( 'unable to find private key for SSL. Path: `' + options.key + '`.' );
+		err = new Error( 'unable to find private key. Path: `' + options.key + '`.' );
 		return onError( err );
 	}
 	opts.key = fs.readFileSync( filepath, 'utf8' );
 
-	// Get the public certificate for SSL...
+	// Get the public certificate for TLS/SSL...
 	filepath = path.resolve( cwd, options.cert );
 	if ( !fs.existsSync( filepath ) ) {
-		err = new Error( 'unable to find public certificate for SSL. Path: `' + options.cert + '`.' );
+		err = new Error( 'unable to find public certificate. Path: `' + options.cert + '`.' );
 		return onError( err );
 	}
 	opts.cert = fs.readFileSync( filepath, 'utf8' );

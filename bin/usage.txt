@@ -9,8 +9,8 @@ Options:
          --hook [module]       Hook invoked upon receiving an event.
   -p,    --port [port]         Server port. Default: 0.
          --ssl                 Enable HTTPS.
-         --key [path]          Path to SSL key file.
-         --cert [path]         Path to SSL certificate.
+         --key [path]          Path to private key.
+         --cert [path]         Path to public certificate.
          --loglevel [level]    Log level. Default: info.
 
 

@@ -4,6 +4,7 @@
 
 var compression = require( 'compression' ),
 	responseTime = require( 'response-time' ),
+	logger = require( 'logger' ),
 	start = require( './start' ),
 	finish = require( './finish' ),
 	onError = require( './error' );
@@ -11,8 +12,9 @@ var compression = require( 'compression' ),
 
 // REQUEST HANDLERS //
 
-var monitor = require( './monitor' ),
-	loglevel = require( './loglevel' ),
+var loglevel = require( 'express-router-bunyan-loglevel' ),
+	status = require( 'express-router-status' ),
+	monitor = require( './monitor' ),
 	webhook = require( './webhook' );
 
 
@@ -53,9 +55,11 @@ function middleware( next ) {
 	* Routes.
 	*/
 
-	app.get( '/monitor', monitor );
+	app.use( '/', loglevel( logger ) );
 
-	app.put( '/loglevel', loglevel );
+	app.use( '/', status );
+
+	app.get( '/monitor', monitor );
 
 	app.post( '/webhook', webhook );
 

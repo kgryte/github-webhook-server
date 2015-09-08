@@ -21,15 +21,15 @@ function create( next ) {
 	/* jshint validthis:true */
 	var server,
 		port,
-		ssl;
+		opts;
 
 	// Get server configuration settings...
 	port = config.get( 'port' );
-	ssl = config.get( 'ssl' );
+	opts = config.get( 'ssl' );
 
 	// Determine if we need to create a basic or secure HTTP server...
-	if ( ssl.enabled ) {
-		server = httpsServer( this, ssl );
+	if ( opts.enabled ) {
+		server = httpsServer( this, opts );
 	} else {
 		server = httpServer( this );
 	}
@@ -48,7 +48,7 @@ function create( next ) {
 	* @private
 	*/
 	function onListen() {
-		logger.info( ( ( ssl.enabled ) ? 'HTTPS' : 'HTTP' ) + ' server initialized. Server is listening for requests on port: ' + server.address().port + '.' );
+		logger.info( ( ( opts.enabled ) ? 'HTTPS' : 'HTTP' ) + ' server initialized. Server is listening for requests on port: ' + server.address().port + '.' );
 		next();
 	} // end FUNCTION onListen()
 } // end FUNCTION create()

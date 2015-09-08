@@ -97,7 +97,7 @@ if ( args.hasOwnProperty( 'port' ) ) {
 	opts.port = args.port;
 }
 
-// SSL, key, cert...
+// SSL/TLS, key, cert...
 if ( args.ssl ) {
 	opts.ssl = true;
 	opts.key = args.key;

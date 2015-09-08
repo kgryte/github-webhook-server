@@ -35,6 +35,7 @@ function start( request, response, next ) {
 		'params': request.params,
 		'query': request.query
 	});
+
 	// Proceed to next middleware:
 	next();
 } // end FUNCTION start()

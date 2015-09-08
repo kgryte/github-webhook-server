@@ -24,8 +24,8 @@ var express = require( 'express' ),
 * @param {Number} [options.port=0] - server port
 * @param {Number} [options.loglevel='info'] - application log level
 * @param {Boolean} [options.ssl=false] - indicates whether to enable HTTPS
-* @param {String} [options.key] - path to SSL key
-* @param {String} [options.cert] - path to SSL certificate
+* @param {String} [options.key] - path to private key
+* @param {String} [options.cert] - path to public certificate
 * @param {Function} [clbk] - callback to invoke after successfully booting the application
 * @returns {Function} express application
 */

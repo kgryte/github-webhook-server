@@ -36,8 +36,8 @@ var LEVELS = [
 * @param {Number} [options.port] - server port
 * @param {Number} [options.loglevel] - application log level
 * @param {Boolean} [options.ssl] - indicates whether to enable HTTPS
-* @param {String} [options.key] - path to SSL key
-* @param {String} [options.cert] - path to SSL certificate
+* @param {String} [options.key] - path to private key
+* @param {String} [options.cert] - path to public certificate
 * @returns {Null|Error} null or an error object
 */
 function validate( opts, options ) {
@@ -72,7 +72,7 @@ function validate( opts, options ) {
 		opts.ssl = {};
 		opts.ssl.enabled = options.ssl;
 		if ( !isBoolean( options.ssl ) ) {
-			return new TypeError( 'invalid option. SSL option must be a boolean primitive. Option: `' + options.ssl + '`.' );
+			return new TypeError( 'invalid option. Secure option must be a boolean primitive. Option: `' + options.ssl + '`.' );
 		}
 		if ( options.ssl ) {
 			opts.ssl.key = options.key;
